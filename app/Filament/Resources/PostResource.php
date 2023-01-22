@@ -19,6 +19,9 @@ use Filament\Tables;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
 class PostResource extends Resource
@@ -64,7 +67,7 @@ class PostResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id')->sortable(),
-                TextColumn::make('title')->limit(50)->sortable(),
+                TextColumn::make('title')->limit(50)->sortable()->searchable(),
                 TextColumn::make('slug')->limit(50),
                 IconColumn::make('is_published')
                     ->boolean(),
@@ -72,7 +75,11 @@ class PostResource extends Resource
                     ->collection('posts'),
             ])
             ->filters([
-                //
+                Filter::make('Published')
+                    ->query(fn (Builder $query): Builder => $query->where('is_published', true)),
+                Filter::make('Draft')
+                    ->query(fn (Builder $query): Builder => $query->where('is_published', false)),
+                SelectFilter::make('Category')->relationship('category', 'name'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
