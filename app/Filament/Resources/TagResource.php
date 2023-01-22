@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\CategoryResource\RelationManagers\PostsRelationManager;
 use App\Filament\Resources\TagResource\Pages;
 use App\Models\Tag;
 use Closure;
@@ -57,7 +58,7 @@ class TagResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            PostsRelationManager::class,
         ];
     }
 

@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PostResource\Pages;
+use App\Filament\Resources\PostResource\RelationManagers\TagsRelationManager;
 use App\Models\Post;
 use Closure;
 use Filament\Forms\Components\Card;
@@ -33,6 +34,10 @@ class PostResource extends Resource
                 Card::make()->schema([
                     Select::make('category_id')
                         ->relationship('category', 'name'),
+
+                    Select::make('tag_id')
+                        ->multiple()
+                        ->relationship('tags', 'name'),
 
                     TextInput::make('title')
                         ->reactive()
@@ -80,7 +85,7 @@ class PostResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            TagsRelationManager::class,
         ];
     }
 
