@@ -18,6 +18,7 @@ use Illuminate\Support\Str;
 class TagResource extends Resource
 {
     protected static ?string $model = Tag::class;
+
     protected static ?string $recordTitleAttribute = 'name';
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
